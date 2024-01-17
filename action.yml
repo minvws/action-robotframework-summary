@@ -1,0 +1,14 @@
+name: 'Publish Robot Framework test results'
+description: 'Publishes the test results of Robot Framework tests.'
+inputs:
+  output_file:
+    description: 'Location of the test results output.xml file.'
+    required: true
+    default: 'tests/robot_framework/results/output.xml'
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        python $GITHUB_ACTION_PATH/result_report.py tests/robot_framework/results/output.xml report.md
+        cat report.md >> $GITHUB_STEP_SUMMARY
+      shell: bash
