@@ -1,6 +1,6 @@
 # Github Action Robot Framework test summary
 
-This Github Action can be used to parse the result of Robot Framework tests into a summary and push these to the Github Action pipeline summary.
+This Github Action can be used to parse the result of Robot Framework tests into a summary and push these to the Github Action pipeline summary. The summary will contain both a count of the tests (total, succesful, failed), as well as a list of all tests with their individual test result.
 
 ## Usage
 
