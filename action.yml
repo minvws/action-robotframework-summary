@@ -8,11 +8,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-      with:
-        sparse-checkout: |
-          result_report.py
-        sparse-checkout-cone-mode: false
     - run: |
         python $GITHUB_ACTION_PATH/result_report.py tests/robot_framework/results/output.xml report.md
         cat report.md >> $GITHUB_STEP_SUMMARY
