@@ -1,5 +1,3 @@
-# Robot Framework Report
-
 Total tests: 24
 :green_circle: 21 passed
 :red_circle: 3 failed
