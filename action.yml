@@ -11,3 +11,4 @@ runs:
     - run: |
         python tests/robot_framework/result_report.py tests/robot_framework/results/output.xml report.md
         cat report.md >> $GITHUB_STEP_SUMMARY
+      shell: bash
