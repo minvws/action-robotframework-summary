@@ -8,7 +8,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash
     - run: |
-        python tests/robot_framework/result_report.py tests/robot_framework/results/output.xml report.md
+        python result_report.py tests/robot_framework/results/output.xml report.md
         cat report.md >> $GITHUB_STEP_SUMMARY
       shell: bash
