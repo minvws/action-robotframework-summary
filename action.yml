@@ -10,11 +10,11 @@ inputs:
     required: false
     default: ''
   username:
-    description: 'Username for basic authentication on the endpoints.'
+    description: 'Optional username for basic authentication on the endpoints.'
     required: false
     default: ''
   password:
-    description: 'Password for basic authentication on the endpoints.'
+    description: 'Optional password for basic authentication on the endpoints.'
     required: false
     default: ''
 runs:

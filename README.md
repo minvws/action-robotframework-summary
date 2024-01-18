@@ -6,6 +6,8 @@ This Github Action can be used to parse the result of Robot Framework tests into
 
 Add the following action to the steps section of your pipeline:
 
+### Basic usage
+
 ```yaml
     - name: Publish test results
       uses: minvws/nl-rdo-github-action-robotframework-test-summary@v0.1.0
@@ -13,8 +15,25 @@ Add the following action to the steps section of your pipeline:
         output_file: 'tests/robot_framework/results/output.xml'
 ```
 
+### Include component versions in summary
+
+```yaml
+    - name: Publish test results
+      uses: minvws/nl-rdo-github-action-robotframework-test-summary@v0.1.0
+      with:
+        output_file: 'tests/robot_framework/results/output.xml'
+        endpoints: 'https://proeftuin.uzi-online.rdobeheer.nl,https://max.proeftuin.uzi-online.rdobeheer.nl/static'
+        username: '${{ secrets.USERNAME }}'
+        password: '${{ secrets.PASSWORD }}'
+```
+
+## Parameters
+
 The following parameters are available:
 
-| Option | Default value | Description |
-| -- | -- | -- |
-| `output_file` | `tests/robot_framework/results/output.xml` | Location of the output.xml file, containing the Robot Framework test results. |
+| Option | Required | Default value | Description |
+| -- | -- | -- | -- |
+| `output_file` | Yes | `tests/robot_framework/results/output.xml` | Location of the output.xml file, containing the Robot Framework test results. |
+| `endpoints` | No | `` | Provide a comma-separated list of endpoints for which the version number should be included in the summary. The endpoints should serve a /version.js. |
+| `username` | No | `` | Optional username for basic authentication on the endpoints. |
+| `password` | No | `` | Optional password for basic authentication on the endpoints. |
