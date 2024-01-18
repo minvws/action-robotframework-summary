@@ -69,7 +69,9 @@ if __name__ == '__main__':
             save = contents.read()
         with open(markdown_file,'w') as contents:
             contents.write("Tested components:\n")
+            contents.write("| Component | Version |\n")
+            contents.write("| -- | -- |\n")
             for endpoint, version in endpoint_versions.items():
-                contents.write("* " + endpoint + ": " + version + "\n")
+                contents.write("| " + endpoint + " | " + version + " |\n")
             contents.write("\n")
-            contents.write(save)
+            contents.write(save) 

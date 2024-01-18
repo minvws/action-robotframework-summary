@@ -1,7 +1,9 @@
 Tested components:
-* proeftuin.uzi-online.rdobeheer.nl: v0.0.12
-* max.proeftuin.uzi-online.rdobeheer.nl/static: v2.8.0
-* yivi.proeftuin.uzi-online.rdobeheer.nl: v0.6.12
+| Component | Version |
+| -- | -- |
+| proeftuin.uzi-online.rdobeheer.nl | v0.0.12 |
+| max.proeftuin.uzi-online.rdobeheer.nl/static | v2.8.0 |
+| yivi.proeftuin.uzi-online.rdobeheer.nl | v0.6.12 |
 
 Total tests: 24
 :green_circle: 21 passed
