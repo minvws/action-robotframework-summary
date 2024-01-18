@@ -5,10 +5,22 @@ inputs:
     description: 'Location of the test results output.xml file.'
     required: true
     default: 'tests/robot_framework/results/output.xml'
+  endpoints:
+    description: 'Provide a comma-separated list of endpoints for which the version number should be included in the summary. The endpoints should serve a /version.js.'
+    required: false
+    default: ''
+  username:
+    description: 'Username for basic authentication on the endpoints.'
+    required: false
+    default: ''
+  password:
+    description: 'Password for basic authentication on the endpoints.'
+    required: false
+    default: ''
 runs:
   using: "composite"
   steps:
     - run: |
-        python $GITHUB_ACTION_PATH/result_report.py tests/robot_framework/results/output.xml report.md
+        python $GITHUB_ACTION_PATH/result_report.py ${{ inputs.output_file }} report.md ${{ inputs.endpoints }} ${{ inputs.username }} ${{ inputs.password }}
         cat report.md >> $GITHUB_STEP_SUMMARY
       shell: bash

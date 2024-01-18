@@ -1,5 +1,6 @@
 from robot.api import ExecutionResult, ResultVisitor
 import sys
+import requests
 
 class ResultReport(ResultVisitor):
     def __init__(self, markdown_file='report.md'):
@@ -36,5 +37,39 @@ if __name__ == '__main__':
         markdown_file = sys.argv[2]
     except IndexError:
         markdown_file = "report.md"
+    try:
+        endpoints = sys.argv[3]
+    except IndexError:
+        endpoints = ""
+    try:
+        username = sys.argv[4]
+    except IndexError:
+        username = ""
+    try:
+        password = sys.argv[5]
+    except IndexError:
+        password = ""
+
+    # Parse output file and build markdown report.
     result = ExecutionResult(output_file)
     result.visit(ResultReport())
+
+    # If endpoints are provided, add the version of these to the begin of the markdown report
+    if len(endpoints) > 0:
+        endpoint_versions = {}
+
+        urls = endpoints.split(',')
+        for url in urls:
+            if len(username) > 0:
+                response = requests.get(url + '/version.json', auth=(username, password))
+            else:
+                response = requests.get(url + '/version.json')
+            endpoint_versions[url.replace('https://','')] = response.json()['version']
+        with open(markdown_file,'r') as contents:
+            save = contents.read()
+        with open(markdown_file,'w') as contents:
+            contents.write("Tested components:\n")
+            for endpoint, version in endpoint_versions.items():
+                contents.write("* " + endpoint + ": " + version + "\n")
+            contents.write("\n")
+            contents.write(save)
