@@ -34,6 +34,6 @@ The following parameters are available:
 | Option | Required | Default value | Description |
 | -- | -- | -- | -- |
 | `output_file` | Yes | `tests/robot_framework/results/output.xml` | Location of the output.xml file, containing the Robot Framework test results. |
-| `endpoints` | No |  | Provide a comma-separated list of endpoints for which the version number should be included in the summary. The endpoints should serve a /version.js. |
+| `endpoints` | No |  | Provide a comma-separated list of endpoints for which the version number should be included in the summary. The endpoints should serve a /version.json. |
 | `username` | No |  | Optional username for basic authentication on the endpoints. |
 | `password` | No |  | Optional password for basic authentication on the endpoints. |
