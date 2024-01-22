@@ -10,7 +10,7 @@ Add the following action to the steps section of your pipeline:
 
 ```yaml
     - name: Publish test results
-      uses: minvws/nl-rdo-github-action-robotframework-test-summary@v0.1.0
+      uses: minvws/nl-rdo-github-action-robotframework-test-summary@v0.2.0
       with:
         output_file: 'tests/robot_framework/results/output.xml'
 ```
@@ -19,10 +19,10 @@ Add the following action to the steps section of your pipeline:
 
 ```yaml
     - name: Publish test results
-      uses: minvws/nl-rdo-github-action-robotframework-test-summary@v0.1.0
+      uses: minvws/nl-rdo-github-action-robotframework-test-summary@v0.2.0
       with:
         output_file: 'tests/robot_framework/results/output.xml'
-        endpoints: 'https://proeftuin.uzi-online.rdobeheer.nl,https://max.proeftuin.uzi-online.rdobeheer.nl/static'
+        endpoints: 'https://example-environment.rdobeheer.nl,https://example-environment2.rdobeheer.nl/static'
         username: '${{ secrets.USERNAME }}'
         password: '${{ secrets.PASSWORD }}'
 ```
