@@ -6,7 +6,7 @@ inputs:
     required: true
     default: 'tests/robot_framework/results/output.xml'
   endpoints:
-    description: 'Provide a comma-separated list of endpoints for which the version number should be included in the summary. The endpoints should serve a /version.js.'
+    description: 'Provide a comma-separated list of endpoints for which the version number should be included in the summary. The endpoints should serve a /version.json.'
     required: false
     default: ''
   username:
