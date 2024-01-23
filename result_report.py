@@ -45,7 +45,7 @@ class ResultReport(ResultVisitor):
     def end_result(self, result):
         # Create a new markdown file
         with open(self.markdown_file, "w") as f:
-            f = self.add_component_version_table(f)
+            self.add_component_version_table(f)
 
             f.write("Total tests: " + str(len(self.passed_tests) + len(self.failed_tests)) + "\n")
             f.write(":green_circle: " + str(len(self.passed_tests)) + " passed\n") 
