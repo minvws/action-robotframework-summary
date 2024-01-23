@@ -14,9 +14,33 @@ class ResultReport(ResultVisitor):
         elif test.status == 'PASS':
             self.passed_tests.append(test.name)
 
+    def add_component_version_table(self, file):
+        if len(endpoints) == 0:
+            return file
+        
+        endpoint_versions = {}
+
+        urls = endpoints.split(',')
+        for url in urls:
+            if len(username) > 0:
+                response = requests.get(url + '/version.json', auth=(username, password))
+            else:
+                response = requests.get(url + '/version.json')
+            endpoint_versions[url.replace('https://','')] = response.json()['version']
+        
+        file.write("Tested components:\n")
+        file.write("| Component | Version |\n")
+        file.write("| -- | -- |\n")
+        for endpoint, version in endpoint_versions.items():
+            file.write("| " + endpoint + " | " + version + " |\n")
+        file.write("\n")
+        return file
+
     def end_result(self, result):
         # Create a new markdown file
         with open(self.markdown_file, "w") as f:
+            f = self.add_component_version_table(f)
+
             f.write("Total tests: " + str(len(self.passed_tests) + len(self.failed_tests)) + "\n")
             f.write(":green_circle: " + str(len(self.passed_tests)) + " passed\n") 
             f.write(":red_circle: " + str(len(self.failed_tests)) + " failed\n")
@@ -50,28 +74,5 @@ if __name__ == '__main__':
     except IndexError:
         password = ""
 
-    # Parse output file and build markdown report.
     result = ExecutionResult(output_file)
     result.visit(ResultReport())
-
-    # If endpoints are provided, add the version of these to the begin of the markdown report
-    if len(endpoints) > 0:
-        endpoint_versions = {}
-
-        urls = endpoints.split(',')
-        for url in urls:
-            if len(username) > 0:
-                response = requests.get(url + '/version.json', auth=(username, password))
-            else:
-                response = requests.get(url + '/version.json')
-            endpoint_versions[url.replace('https://','')] = response.json()['version']
-        with open(markdown_file,'r') as contents:
-            save = contents.read()
-        with open(markdown_file,'w') as contents:
-            contents.write("Tested components:\n")
-            contents.write("| Component | Version |\n")
-            contents.write("| -- | -- |\n")
-            for endpoint, version in endpoint_versions.items():
-                contents.write("| " + endpoint + " | " + version + " |\n")
-            contents.write("\n")
-            contents.write(save) 
