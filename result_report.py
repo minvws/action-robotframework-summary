@@ -26,7 +26,13 @@ class ResultReport(ResultVisitor):
                 response = requests.get(url + '/version.json', auth=(username, password))
             else:
                 response = requests.get(url + '/version.json')
-            endpoint_versions[url.replace('https://','')] = response.json()['version']
+
+            if response.status_code == 200:
+                version = response.json()['version'] 
+            else:
+                version = '**ERROR ' + str(response.status_code) + '**'
+
+            endpoint_versions[url.replace('https://','')] = version
         
         file.write("Tested components:\n")
         file.write("| Component | Version |\n")
