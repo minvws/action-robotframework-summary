@@ -11,6 +11,7 @@ Add the following action to the steps section of your pipeline:
 ```yaml
     - name: Publish test results
       uses: minvws/nl-rdo-github-action-robotframework-test-summary@v0.2.0
+      if: always()
       with:
         output_file: 'tests/robot_framework/results/output.xml'
 ```
@@ -20,6 +21,7 @@ Add the following action to the steps section of your pipeline:
 ```yaml
     - name: Publish test results
       uses: minvws/nl-rdo-github-action-robotframework-test-summary@v0.2.0
+      if: always()
       with:
         output_file: 'tests/robot_framework/results/output.xml'
         endpoints: 'https://example-environment.rdobeheer.nl,https://example-environment2.rdobeheer.nl/static'
