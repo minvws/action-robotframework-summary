@@ -16,7 +16,7 @@ class ResultReport(ResultVisitor):
 
     def add_component_version_table(self, file):
         if len(endpoints) == 0:
-            return file
+            return None
         
         endpoint_versions = {}
 
@@ -40,7 +40,7 @@ class ResultReport(ResultVisitor):
         for endpoint, version in endpoint_versions.items():
             file.write("| " + endpoint + " | " + version + " |\n")
         file.write("\n")
-        return file
+        return None
 
     def end_result(self, result):
         # Create a new markdown file
