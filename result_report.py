@@ -4,15 +4,17 @@ import requests
 
 class ResultReport(ResultVisitor):
     def __init__(self, markdown_file='report.md'):
-        self.failed_tests = []
-        self.passed_tests = []
+        self.failed_tests = 0
+        self.passed_tests = 0
+        self.tests = []
         self.markdown_file = markdown_file
 
     def visit_test(self, test):
         if test.status == 'FAIL':
-            self.failed_tests.append(test.name)
+            self.failed_tests += 1
         elif test.status == 'PASS':
-            self.passed_tests.append(test.name)
+            self.passed_tests += 1
+        self.tests.append(test)
 
     def add_component_version_table(self, file):
         if len(endpoints) == 0:
@@ -47,16 +49,18 @@ class ResultReport(ResultVisitor):
         with open(self.markdown_file, "w") as f:
             self.add_component_version_table(f)
 
-            f.write("Total tests: " + str(len(self.passed_tests) + len(self.failed_tests)) + "\n")
-            f.write(":green_circle: " + str(len(self.passed_tests)) + " passed\n") 
-            f.write(":red_circle: " + str(len(self.failed_tests)) + " failed\n")
+            f.write("Total tests: " + str(len(self.tests)) + "\n")
+            f.write(":green_circle: " + str(self.passed_tests) + " passed\n") 
+            f.write(":red_circle: " + str(self.failed_tests) + " failed\n")
             f.write("\n")
             f.write("|Test|Result|\n")
             f.write("|---|---|\n")
-            for test in self.passed_tests:
-                f.write(f"|{test}| :green_circle:|\n")
-            for test in self.failed_tests:
-                f.write(f"|{test}| :red_circle:|\n")
+            for test in self.tests:
+                f.write("| " + test.name + " | ")
+                if test.status == 'FAIL':
+                    f.write(":red_circle:|\n")
+                elif test.status == 'PASS':
+                    f.write(":green_circle:|\n")
 
 if __name__ == '__main__':
     try:
