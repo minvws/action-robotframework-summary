@@ -1,8 +1,12 @@
-prepare-env:
-	python3.11 -m venv env
-	env/bin/python -m pip install robotframework
-	env/bin/python -m pip install requests
+venv:
+	python3.11 -m venv .venv
+	.venv/bin/python -m pip install robotframework
+	.venv/bin/python -m pip install requests
+	.venv/bin/python -m pip uninstall robot
+
+clean-venv:
+	rm -rf .venv
 
 generate-report:
-	env/bin/python result_report.py example_output.xml report.md
+	.venv/bin/python result_report.py example_output.xml report.md
 	cat report.md
