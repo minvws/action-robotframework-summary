@@ -10,10 +10,6 @@ class ResultReport(ResultVisitor):
         self.markdown_file = markdown_file
 
     def visit_test(self, test):
-        if test.status == 'FAIL':
-            self.failed_tests += 1
-        elif test.status == 'PASS':
-            self.passed_tests += 1
         self.tests.append(test)
 
     def add_component_version_table(self, file):
@@ -47,11 +43,13 @@ class ResultReport(ResultVisitor):
     def end_result(self, result):
         # Create a new markdown file
         with open(self.markdown_file, "w") as f:
+            stats = result.statistics
+
             self.add_component_version_table(f)
 
-            f.write("Total tests: " + str(len(self.tests)) + "\n")
-            f.write(":green_circle: " + str(self.passed_tests) + " passed\n") 
-            f.write(":red_circle: " + str(self.failed_tests) + " failed\n")
+            f.write(f"Total tests: {stats.total.total}\n")
+            f.write(f":green_circle: {stats.total.passed} passed\n")
+            f.write(f":red_circle: {stats.total.failed} failed\n")
             f.write("\n")
             f.write("|Test|Result|\n")
             f.write("|---|---|\n")
