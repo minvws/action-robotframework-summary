@@ -1,4 +1,4 @@
-"""Library that will parse a Robot Framework results file, output.xml, and return a report.md file."""
+"""Library that will parse a Robot Framework results file, output.xml."""
 import sys
 from robot.api import ExecutionResult, ResultVisitor
 
@@ -6,22 +6,22 @@ class ResultReport(ResultVisitor):
     """Implementation of a Robot Framework ResultVisitor."""
 
     def __init__(self, markdown_file):
-        """"""
+        """Constructor"""
         self.failed_tests = []
         self.passed_tests = []
         self.markdown_file = markdown_file
 
     def visit_test(self, test):
-        """"""
+        """Implementation of visit_test"""
         if test.status == 'FAIL':
             self.failed_tests.append(test.name)
         elif test.status == 'PASS':
             self.passed_tests.append(test.name)
 
-    def end_result(self, result):
-        """"""
+    def end_result(self):
+        """Implementation of end_result"""
         # Create a new markdown file
-        with open(self.markdown_file, "w") as f:
+        with open(self.markdown_file, "w", encoding="utf-8") as f:
             f.write("Total tests: " + str(len(self.passed_tests) + len(self.failed_tests)) + "\n")
             f.write(":green_circle: " + str(len(self.passed_tests)) + " passed\n")
             f.write(":red_circle: " + str(len(self.failed_tests)) + " failed\n")
@@ -43,4 +43,4 @@ if __name__ == '__main__':
     except IndexError:
         MARKDOWN_FILE = "report.md"
     result = ExecutionResult(OUTPUT_FILE)
-    result.visit(ResultReport())
+    result.visit(ResultReport(MARKDOWN_FILE))
