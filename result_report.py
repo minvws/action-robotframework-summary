@@ -18,7 +18,8 @@ class ResultReport(ResultVisitor):
         elif test.status == 'PASS':
             self.passed_tests.append(test.name)
 
-    def end_result(self):
+    
+    def end_result(self, result): # pylint: disable=W0621, W0613
         """Implementation of end_result"""
         # Create a new markdown file
         with open(self.markdown_file, "w", encoding="utf-8") as f:
