@@ -38,4 +38,4 @@ jobs:
         globs:  |
           **/*.md
           !report.md
-        config: '.markdownlint-cli2.json'
+        config: '.markdownlint-cli2.jsonc'
