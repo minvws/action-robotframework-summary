@@ -6,34 +6,46 @@ from robot.api import ExecutionResult, ResultVisitor
 class ResultReport(ResultVisitor):
     """Implementation of a Robot Framework ResultVisitor."""
 
-    def __init__(self, markdown_file):
+    def __init__(self, markdown_file, endpoints, username, password):
         """Constructor"""
         self.tests = []
         self.markdown_file = markdown_file
+        self.endpoints = endpoints
+        self.username = username
+        self.password = password
 
     def visit_test(self, test):
+        """Implementation of visit_test"""
         self.tests.append(test)
 
     def add_component_version_table(self, file):
-        if len(endpoints) == 0:
+        """Requests the versions of the given endpoints and adds them to file as a table"""
+        if len(self.endpoints) == 0:
             return None
-        
+
         endpoint_versions = {}
 
-        urls = endpoints.split(',')
+        urls = self.endpoints.split(',')
         for url in urls:
-            if len(username) > 0:
-                response = requests.get(url + '/version.json', auth=(username, password))
+            if len(self.username) > 0:
+                response = requests.get(
+                    url + '/version.json',
+                    auth=(self.username, self.password),
+                    timeout=5
+                )
             else:
-                response = requests.get(url + '/version.json')
+                response = requests.get(
+                    url + '/version.json',
+                    timeout=5
+                )
 
             if response.status_code == 200:
-                version = response.json()['version'] 
+                version = response.json()['version']
             else:
                 version = '**ERROR ' + str(response.status_code) + '**'
 
             endpoint_versions[url.replace('https://','')] = version
-        
+
         file.write("Tested components:\n")
         file.write("| Component | Version |\n")
         file.write("| -- | -- |\n")
@@ -42,7 +54,7 @@ class ResultReport(ResultVisitor):
         file.write("\n")
         return None
 
-    def end_result(self, result): # pylint: disable=W0621, W0613
+    def end_result(self, result):
         """Implementation of end_result"""
         # Create a new markdown file
         with open(self.markdown_file, "w", encoding="utf-8") as f:
@@ -73,17 +85,17 @@ if __name__ == '__main__':
     except IndexError:
         MARKDOWN_FILE = "report.md"
     try:
-        endpoints = sys.argv[3]
+        ENDPOINTS = sys.argv[3]
     except IndexError:
-        endpoints = ""
+        ENDPOINTS = ""
     try:
-        username = sys.argv[4]
+        USERNAME = sys.argv[4]
     except IndexError:
-        username = ""
+        USERNAME = ""
     try:
-        password = sys.argv[5]
+        PASSWORD = sys.argv[5]
     except IndexError:
-        password = ""
+        PASSWORD = ""
 
-    result = ExecutionResult(OUTPUT_FILE)
-    result.visit(ResultReport(MARKDOWN_FILE))
+    execResult = ExecutionResult(OUTPUT_FILE)
+    execResult.visit(ResultReport(MARKDOWN_FILE, ENDPOINTS, USERNAME, PASSWORD))
