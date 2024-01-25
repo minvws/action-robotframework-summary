@@ -1,11 +1,13 @@
-from robot.api import ExecutionResult, ResultVisitor
+"""Library that will parse a Robot Framework results file, output.xml."""
 import sys
 import requests
+from robot.api import ExecutionResult, ResultVisitor
 
 class ResultReport(ResultVisitor):
-    def __init__(self, markdown_file='report.md'):
-        self.failed_tests = 0
-        self.passed_tests = 0
+    """Implementation of a Robot Framework ResultVisitor."""
+
+    def __init__(self, markdown_file):
+        """Constructor"""
         self.tests = []
         self.markdown_file = markdown_file
 
@@ -40,9 +42,10 @@ class ResultReport(ResultVisitor):
         file.write("\n")
         return None
 
-    def end_result(self, result):
+    def end_result(self, result): # pylint: disable=W0621, W0613
+        """Implementation of end_result"""
         # Create a new markdown file
-        with open(self.markdown_file, "w") as f:
+        with open(self.markdown_file, "w", encoding="utf-8") as f:
             stats = result.statistics
 
             self.add_component_version_table(f)
@@ -62,13 +65,13 @@ class ResultReport(ResultVisitor):
 
 if __name__ == '__main__':
     try:
-        output_file = sys.argv[1]
+        OUTPUT_FILE = sys.argv[1]
     except IndexError:
-        output_file = "output.xml"
+        OUTPUT_FILE = "output.xml"
     try:
-        markdown_file = sys.argv[2]
+        MARKDOWN_FILE = sys.argv[2]
     except IndexError:
-        markdown_file = "report.md"
+        MARKDOWN_FILE = "report.md"
     try:
         endpoints = sys.argv[3]
     except IndexError:
@@ -82,5 +85,5 @@ if __name__ == '__main__':
     except IndexError:
         password = ""
 
-    result = ExecutionResult(output_file)
-    result.visit(ResultReport())
+    result = ExecutionResult(OUTPUT_FILE)
+    result.visit(ResultReport(MARKDOWN_FILE))

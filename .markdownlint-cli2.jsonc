@@ -1,0 +1,9 @@
+{
+    "config": {
+        // Enable all default rules
+        "default": true,
+        
+        // Increase the minimum line length
+        "MD013": { "line_length": 512 }
+    }
+ }
