@@ -25,7 +25,6 @@ runs:
         python $GITHUB_ACTION_PATH/result_report.py tests/robot_framework/results/output.xml report.md
         cat report.md >> $GITHUB_STEP_SUMMARY
       shell: bash
-      comment:
     - name: Decorate Pull Request
       uses: actions/github-script@v7
       with:
