@@ -17,7 +17,7 @@ class ResultReport(ResultVisitor):
     def start_suite(self, suite):
         """Implementation of start_suite"""
         for test in suite.tests:
-            test.name = suite.name + "." + test.name
+            test.message = suite.name
             self.tests.append(test)
 
     def add_component_version_table(self, file):
@@ -68,10 +68,10 @@ class ResultReport(ResultVisitor):
             f.write(f":green_circle: {stats.total.passed} passed\n")
             f.write(f":red_circle: {stats.total.failed} failed\n")
             f.write("\n")
-            f.write("|Test|Result|\n")
-            f.write("|---|---|\n")
+            f.write("|Testsuite|Testcase|Result|\n")
+            f.write("|---|---|---|\n")
             for test in self.tests:
-                f.write("| " + test.name + " | ")
+                f.write("| " + test.message + " | " + test.name + " | ")
                 if test.status == 'FAIL':
                     f.write(":red_circle:|\n")
                 elif test.status == 'PASS':
