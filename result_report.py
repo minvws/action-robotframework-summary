@@ -14,9 +14,11 @@ class ResultReport(ResultVisitor):
         self.username = username
         self.password = password
 
-    def visit_test(self, test):
-        """Implementation of visit_test"""
-        self.tests.append(test)
+    def start_suite(self, suite):
+        """Implementation of start_suite"""
+        for test in suite.tests:
+            test.name = suite.name + "." + test.name
+            self.tests.append(test)
 
     def add_component_version_table(self, file):
         """Requests the versions of the given endpoints and adds them to file as a table"""
