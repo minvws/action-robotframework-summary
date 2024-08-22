@@ -1,7 +1,7 @@
 """Library that will parse a Robot Framework results file, output.xml."""
 import sys
 import requests
-from robot.api import ExecutionResult, ResultVisitor, TestSuite
+from robot.api import ExecutionResult, ResultVisitor
 
 class ResultReport(ResultVisitor):
     """Implementation of a Robot Framework ResultVisitor."""
