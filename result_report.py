@@ -14,17 +14,10 @@ class ResultReport(ResultVisitor):
         self.username = username
         self.password = password
 
-    def visit_test(self, test):
-        """Implementation of visit_test"""
-        self.tests.append(test)
-
     def start_suite(self, suite):
         """Implementation of start_suite"""
-        if len(suite.tests) > 0:
-            print(suite)
-            self.tests.append(suite)
         for test in suite.tests:
-            print(test)
+            test.name = suite.name + "." + test.name
             self.tests.append(test)
 
     def add_component_version_table(self, file):
@@ -77,16 +70,12 @@ class ResultReport(ResultVisitor):
             f.write("\n")
             f.write("|Test|Result|\n")
             f.write("|---|---|\n")
-            for item in self.tests:
-                print(item)
-                if item.__class__.__name__ == "TestSuite":
-                    f.write("| " + item.name + " |  |\n")
-                elif item.__class__.__name__ == "TestCase":
-                    f.write("| " + item.name + " | ")
-                    if item.status == 'FAIL':
-                        f.write(":red_circle:|\n")
-                    elif item.status == 'PASS':
-                        f.write(":green_circle:|\n")
+            for test in self.tests:
+                f.write("| " + test.name + " | ")
+                if test.status == 'FAIL':
+                    f.write(":red_circle:|\n")
+                elif test.status == 'PASS':
+                    f.write(":green_circle:|\n")
 
 if __name__ == '__main__':
     try:
