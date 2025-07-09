@@ -76,6 +76,8 @@ class ResultReport(ResultVisitor):
                     f.write(":red_circle:|\n")
                 elif test.status == 'PASS':
                     f.write(":green_circle:|\n")
+                elif test.status == 'SKIP':
+                    f.write(":white_circle:|\n")
 
 if __name__ == '__main__':
     try:
