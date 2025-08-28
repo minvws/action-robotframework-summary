@@ -1,0 +1,19 @@
+name: Major version tag
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v[0-9]+.*"]
+
+jobs:
+  major-version-tag:
+    name: Major version tag
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Create or update major version tag
+        uses: minvws/action-major-version-tag@v1
