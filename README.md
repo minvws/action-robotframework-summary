@@ -20,7 +20,7 @@ Add the following action to the steps section of your pipeline:
 
 ```yaml
     - name: Publish test results
-      uses: minvws/nl-rdo-github-action-robotframework-test-summary@v0.4.3
+      uses: minvws/action-robotframework-summary@v1
       if: always()
       with:
         output_file: 'tests/robot_framework/results/output.xml'
